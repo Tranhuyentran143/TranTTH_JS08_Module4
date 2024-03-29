@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { TaskRequest, TaskResponse } from "../models/task.type";
-import { createTask, deleteAllTasks, deleteTaskByIdApi, getTasks, updateTask } from "../api/task.api";
+import { TaskRequest, TaskResponse, TaskUpdateStatus } from "../models/task.type";
+import { createTask, deleteTaskByIdApi, getTasks, updateTask } from "../api/task.api";
 import TaskDetail from "./task.component";
 
 
@@ -17,43 +17,27 @@ const Tasks = () => {
   };
   const createNewTask = async () => {
     const name = nameRef.current?.value;
-    const status = statusRef.current?.value;
+    const status = statusRef.current?.checked;
 
     const newTask: TaskRequest = {
       task_name: name ?? "",
-      status: status ?? "",
+      status: !! status,
     };
     await createTask(newTask);
     fetchTasks();
   };
 
-  const editTask = async () => {
-    const name = nameRef.current?.value;
-    const status = statusRef.current?.value;
-
-    const newTask: TaskRequest = {
-      id: parseInt(idRef.current),
-      task_name: name ?? "",
-      status: status ?? "",
-    };
-
-    await updateTask(newTask);
+  const editStatus = async (id: number) => {
+    const newTask: TaskUpdateStatus = {
+        id: id
+    }
+    await updateTask(newTask)
     fetchTasks();
-  };
+  }
 
   const deleteTaskById = async (id: number) => {
     await deleteTaskByIdApi(id);
     fetchTasks();
-  };
-
-
-  const onClickEdit = (task_edit: TaskRequest) => {
-    const { id, task_name, status } = task_edit;
-    if (typeof id === "number") {
-      idRef.current = id.toString();
-      if (nameRef.current) nameRef.current.value = task_name;
-      if (statusRef.current) statusRef.current.value = status;
-    }
   };
 
   useEffect(() => {
@@ -77,7 +61,7 @@ const Tasks = () => {
                 key={task.id}
                 task={task}
                 deleteTaskById={deleteTaskById}
-                onClickEdit={onClickEdit}
+                editStatus={editStatus}
               />
             );
           })}
@@ -89,13 +73,7 @@ const Tasks = () => {
         <input type="text" id="fname" name="fname" ref={nameRef} />
         <br />
         <br />
-        <label htmlFor="fstatus">Status:</label>
-        <br />
-        <input type="text" id="fstatus" name="fstatus" ref={statusRef} />
-        <br />
-        <br />
         <input type="submit" value="Add to the todo list" style={{fontSize: "20px"}} onClick={createNewTask} /> <br/>
-        <input type="submit" value="Edit the todo list" style={{fontSize: "20px"}} onClick={editTask} />
       </div>
     </div>
   );

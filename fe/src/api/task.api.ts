@@ -1,5 +1,5 @@
 import axios from "axios";
-import { TaskRequest, TaskResponse } from "../models/task.type";
+import { TaskRequest, TaskResponse, TaskUpdateStatus } from "../models/task.type";
 
 const HOST_API = process.env.HOST_API || "http://localhost:8080";
 
@@ -31,7 +31,7 @@ export const createTask = async (
 };
 
 export const updateTask = async (
-  updateTask: TaskRequest
+  updateTask: TaskUpdateStatus
 ): Promise<TaskResponse | null> => {
   try {
     const response = await axios.put(
