@@ -31,7 +31,7 @@ export const createTask = async (
 };
 
 export const updateTask = async (
-    updateTask: TaskRequest
+  updateTask: TaskRequest
 ): Promise<TaskResponse | null> => {
   try {
     const response = await axios.put(
