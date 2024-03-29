@@ -22,6 +22,7 @@ export class TaskController {
   static updateTask = async (req: Request, res: Response) => {
     const taskId = +req.params.id;
     const updatedTaskInfo = req.body;
+    updatedTaskInfo.status = true;
     const success = await TaskService.updateTask(taskId, updatedTaskInfo);
     res.status(201).json(success);
   };

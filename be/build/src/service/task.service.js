@@ -18,7 +18,7 @@ class TaskService {
 exports.TaskService = TaskService;
 _a = TaskService;
 TaskService.taskRepo = db_config_1.dbConfig.getRepository(task_enity_1.Task);
-TaskService.getTask = () => __awaiter(void 0, void 0, void 0, function* () {
+TaskService.getTasks = () => __awaiter(void 0, void 0, void 0, function* () {
     return yield _a.taskRepo.find();
 });
 TaskService.getTaskById = (id) => __awaiter(void 0, void 0, void 0, function* () {
@@ -26,10 +26,7 @@ TaskService.getTaskById = (id) => __awaiter(void 0, void 0, void 0, function* ()
         id,
     });
 });
-TaskService.getTaskByQuery = (query) => __awaiter(void 0, void 0, void 0, function* () {
-    return yield _a.taskRepo.findOneBy(query);
-});
-TaskService.createTask = (taskData) => __awaiter(void 0, void 0, void 0, function* () {
+TaskService.addTask = (taskData) => __awaiter(void 0, void 0, void 0, function* () {
     const newTask = _a.taskRepo.create(taskData);
     return yield _a.taskRepo.save(newTask);
 });

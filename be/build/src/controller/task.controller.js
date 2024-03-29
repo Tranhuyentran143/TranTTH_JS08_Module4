@@ -17,7 +17,7 @@ class TaskController {
 exports.TaskController = TaskController;
 _a = TaskController;
 TaskController.getTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const tasks = yield task_service_1.TaskService.getTask();
+    const tasks = yield task_service_1.TaskService.getTasks();
     res.status(200).json(tasks);
 });
 TaskController.getTaskById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -27,17 +27,18 @@ TaskController.getTaskById = (req, res) => __awaiter(void 0, void 0, void 0, fun
 });
 TaskController.createTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const taskData = req.body;
-    const newTask = yield task_service_1.TaskService.createTask(taskData);
+    const newTask = yield task_service_1.TaskService.addTask(taskData);
     res.status(201).json(newTask);
 });
 TaskController.updateTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const taskId = +req.params.id;
     const updatedTaskInfo = req.body;
+    updatedTaskInfo.status = true;
     const success = yield task_service_1.TaskService.updateTask(taskId, updatedTaskInfo);
     res.status(201).json(success);
 });
-TaskController.deleteTask = (req, res) => {
+TaskController.deleteTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const taskId = +req.params.id;
-    const success = task_service_1.TaskService.deleteTask(taskId);
+    const success = yield task_service_1.TaskService.deleteTask(taskId);
     res.status(200).json(success);
-};
+});
