@@ -26,9 +26,9 @@ export class TaskController {
     res.status(201).json(success);
   };
 
-  static deleteTask = (req: Request, res: Response) => {
+  static deleteTask = async (req: Request, res: Response) => {
     const taskId = +req.params.id;
-    const success = TaskService.deleteTask(taskId);
+    const success = await TaskService.deleteTask(taskId);
     res.status(200).json(success);
   };
 }
